@@ -102,7 +102,9 @@ function Municipality() {
           <div className="text-right">
             <FontAwesomeIcon icon={faHelmetSafety} className="text-green-800" />
             <p className="text-3xl font-semibold">الدائرة الهندسية</p>
-            <p>مسؤولة عن التخطيط المدني، التراخيص، ومشاريع البنية التحتية وصيانة الطرق في العاصمة
+            <p>
+              مسؤولة عن التخطيط المدني، التراخيص، ومشاريع البنية التحتية وصيانة
+              الطرق في العاصمة
             </p>
           </div>
           <div className="flex flex-col text-right ml-100 gap-2">
@@ -160,20 +162,37 @@ function Municipality() {
       </div>
       <div className="bg-gray-200 flex flex-row-reverse pr-20 pl-20 pt-10 pb-10">
         <div className="text-right">
-          <p className="text-3xl text-green-800 pb-5 font-semibold">المقر الرئيسي</p>
+          <p className="text-3xl text-green-800 pb-5 font-semibold">
+            المقر الرئيسي
+          </p>
           <p className="pb-5">
-           . تفضلوا بزيارتنا في مقر بلدية بيروت التاريخي وسط المدينة، حيث نسعد باستقبال مراجعاتكم خلال ساعات العمل الرسمية
+            . تفضلوا بزيارتنا في مقر بلدية بيروت التاريخي وسط المدينة، حيث نسعد
+            باستقبال مراجعاتكم خلال ساعات العمل الرسمية
           </p>
           <div className="pb-5">
             وسط مدينة بيروت، منطقة الصنائع، لبنان
-            <FontAwesomeIcon icon={faLocationDot} className="text-green-800 pl-1"/>
+            <FontAwesomeIcon
+              icon={faLocationDot}
+              className="text-green-800 pl-1"
+            />
           </div>
           <div>
             من الإثنين إلى الجمعة: 8:00 صباحاً - 2:00 ظهراً
             <FontAwesomeIcon icon={faClock} className="text-green-800 pl-1" />
           </div>
         </div>
-        <div></div>
+        <div className="w-[70%] h-[300px] rounded-2xl overflow-hidden mx-auto">
+          <iframe
+            title="Beirut Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3311.6733763352954!2d35.5056869!3d33.8980649!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x151f16e5d8201d59%3A0x7efe609f4a486c21!2sBeirut%20Municipality!5e0!3m2!1sen!2slb!4v1778751315680!5m2!1sen!2slb"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
       </div>
     </>
   );
