@@ -1,59 +1,135 @@
+import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import { faSearch, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { useState } from "react";
 
-function Navbar() {
+export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `relative pb-1 transition hover:text-green-700 ${
+    isActive
+      ? "text-green-700 font-bold after:content-[''] after:absolute after:right-0 after:bottom-0 after:w-full after:h-0.5 after:bg-green-700"
+      : "text-gray-700"
+    }`;
+
   return (
-    <>
-      <div className="sticky top-0 z-50">
-        <div className="flex flex-col h-5 bg-green-700"></div>
-        <div className="flex flex-row-reverse p-5 place-content-between bg-gray-100 pl-20 pr-20">
-          <div className="flex flex-row-reverse ">
-            <h1 className="text-green-700 font-bold text-xl ml-15">
+    <div className="sticky top-0 z-50">
+      <div className="h-1.5 bg-green-700" />
+
+      <div className="bg-gray-100 shadow-sm px-6 xl:px-20 py-4">
+        <div className="flex items-center justify-between flex-row-reverse">
+          
+          {/* Right Side */}
+          <div className="flex items-center gap-8 flex-row-reverse">
+            <h1 className="text-green-700 font-bold text-xl whitespace-nowrap">
               بلدية بيروت
             </h1>
-            <div className="flex flex-row-reverse gap-5 mt-1">
-              <Link to="/" className="font-semibold cursor-pointer hover:text-green-700 hover:underline hover:decoration-green-700 hover:underline-offset-8 hover:decoration-4">
+
+            {/* Desktop Nav */}
+            <nav className="hidden xl:flex flex-row-reverse gap-6">
+              <NavLink to="/" end className={linkClass}>
                 الرئيسية
-              </Link>
-              <Link to="/municipality" className="font-semibold cursor-pointer hover:text-green-700 hover:underline hover:decoration-green-700 hover:underline-offset-8 hover:decoration-4">
+              </NavLink>
+
+              <NavLink to="/municipality" className={linkClass}>
                 عن البلدية
-              </Link>
-              <Link to="/news" className="font-semibold cursor-pointer hover:text-green-700 hover:underline hover:decoration-green-700 hover:underline-offset-8 hover:decoration-4">
+              </NavLink>
+
+              <NavLink to="/services" className={linkClass}>
                 الخدمات
-              </Link>
-              <Link to="/main" className="font-semibold cursor-pointer hover:text-green-700 hover:underline hover:decoration-green-700 hover:underline-offset-8 hover:decoration-4">
+              </NavLink>
+
+              <NavLink to="/news" className={linkClass}>
                 الأخبار
-              </Link>
-              <Link to="/main" className="font-semibold cursor-pointer hover:text-green-700 hover:underline hover:decoration-green-700 hover:underline-offset-8 hover:decoration-4">
+              </NavLink>
+
+              <NavLink to="/projects" className={linkClass}>
                 المشاريع
-              </Link>
-              <Link to="/main" className="font-semibold cursor-pointer hover:text-green-700 hover:underline hover:decoration-green-700 hover:underline-offset-8 hover:decoration-4">
+              </NavLink>
+
+              <NavLink to="/city" className={linkClass}>
                 الأحياء
-              </Link>
-            </div>
+              </NavLink>
+            </nav>
           </div>
-          <div className="flex flex-row-reverse gap-20">
-            <div className="flex flex-row-reverse gap-15">
+
+          {/* Left Side */}
+          <div className="hidden xl:flex flex-row-reverse items-center gap-4">
+            <div className="relative flex items-center">
               <FontAwesomeIcon
                 icon={faSearch}
-                className="text-gray-500 absolute mr-3 mt-3"
+                className="text-gray-400 absolute right-3 pointer-events-none"
               />
 
               <input
                 type="text"
-                placeholder=". . . بحث عن مشاريع"
-                className="w-full bg-gray-200 border-2 border-gray-300 rounded-xl h-10 pr-10 text-right"
+                placeholder="بحث عن مشاريع . . ."
+                className="bg-gray-200 border border-gray-300 rounded-xl h-10 pr-9 pl-4 text-right text-sm w-52 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
-            <button className="bg-green-700 text-white p-2 pl-5 pr-5 rounded-xl">
+
+            <button className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-green-600 transition whitespace-nowrap">
               دخول المواطن
             </button>
           </div>
+
+          {/* Mobile Menu Button */}
+          <button
+            className="xl:hidden text-2xl text-green-700"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <FontAwesomeIcon icon={menuOpen ? faXmark : faBars} />
+          </button>
         </div>
+
+        {/* Mobile Menu */}
+        {menuOpen && (
+          <div className="xl:hidden mt-4 flex flex-col items-end gap-4 text-right">
+            <NavLink to="/" end className={linkClass}>
+              الرئيسية
+            </NavLink>
+
+            <NavLink to="/municipality" className={linkClass}>
+              عن البلدية
+            </NavLink>
+
+            <NavLink to="/services" className={linkClass}>
+              الخدمات
+            </NavLink>
+
+            <NavLink to="/news" className={linkClass}>
+              الأخبار
+            </NavLink>
+
+            <NavLink to="/projects" className={linkClass}>
+              المشاريع
+            </NavLink>
+
+            <NavLink to="/city" className={linkClass}>
+              الأحياء
+            </NavLink>
+
+            {/* Mobile Search */}
+            <div className="relative flex items-center w-full">
+              <FontAwesomeIcon
+                icon={faSearch}
+                className="text-gray-400 absolute right-3 pointer-events-none"
+              />
+
+              <input
+                type="text"
+                placeholder="بحث عن مشاريع . . ."
+                className="w-full bg-gray-200 border border-gray-300 rounded-xl h-10 pr-9 pl-4 text-right text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+
+            <button className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-green-600 transition">
+              دخول المواطن
+            </button>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 }
-
-export default Navbar;
