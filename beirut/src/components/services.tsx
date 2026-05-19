@@ -17,6 +17,7 @@ import {
   faUser,
 } from "@fortawesome/free-solid-svg-icons";
 import Future from "../assets/futuristic.png";
+import { NavLink } from "react-router-dom";
 
 const downloads = [
   { title: "طلب تصريح إشغال رصيف", size: "PDF · ١.٢ MB" },
@@ -56,6 +57,7 @@ const requirements = [
   "سجل عدلي لا يتجاوز ٣ أشهر",
 ];
 
+
 export default function DigitalServices() {
   return (
     <>
@@ -80,10 +82,13 @@ export default function DigitalServices() {
             <p className="text-sm text-gray-500 mb-4">
               نسعى دائماً لتحسين خدماتنا من خلال ملاحظاتكم
             </p>
-            <button className="w-full bg-green-800 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-green-700 transition cursor-pointer">
+            <NavLink
+              to="/reports"
+              className="w-full bg-green-800 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-green-700 transition cursor-pointer"
+            >
               <FontAwesomeIcon icon={faBell} />
               إرسال البلاغ
-            </button>
+            </NavLink>
           </div>
 
           {/* Most used services */}

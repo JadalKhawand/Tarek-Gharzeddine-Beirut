@@ -5,9 +5,9 @@ function Footer() {
   return (
     <>
       <div className="bg-green-800 h-1"></div>
-      <div className="bg-gray-100 p-10 px-20 flex flex-row-reverse text-right place-content-between border-b border-gray-300">
+      <div className="bg-gray-100 p-10 px-15 flex md:flex-row-reverse flex-wrap text-right md:place-content-between border-b place-content-center gap-15 border-gray-300">
         {/* بلدية بيروت */}
-        <div className="flex flex-col w-52 gap-3 text-green-900">
+        <div className="flex flex-col w-52 gap-3 text-green-900 ">
           <p className="text-base font-semibold">بلدية بيروت</p>
           <p className="text-sm text-gray-600 leading-relaxed">
             نحن في بلدية بيروت ملتزمون بخدمة مواطنينا وبناء مستقبل العاصمة
@@ -62,9 +62,9 @@ function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="flex flex-row-reverse place-content-between px-20 py-5 bg-gray-100 text-sm text-green-900">
+      <div className="flex flex-row-reverse md:place-content-between place-content-center px-20 py-5 bg-gray-100 text-sm text-green-900">
         <div>.2024 بلدية بيروت. جميع الحقوق محفوظة ©</div>
-        <div className="flex flex-row-reverse gap-6">
+        <div className=" flex-row-reverse gap-6 hidden md:flex">
           <p className="hover:text-green-600 cursor-pointer">سياسة الخصوصية</p>
           <p className="hover:text-green-600 cursor-pointer">شروط الخدمة</p>
           <p className="hover:text-green-600 cursor-pointer">إمكانية الوصول</p>

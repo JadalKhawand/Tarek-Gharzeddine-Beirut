@@ -7,6 +7,7 @@ import City from "./components/city";
 import Projects from "./components/projects";
 import Services from "./components/services";
 import "./App.css";
+import Reports from "./components/reports";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/city" element={<City/>}/>
         <Route path="/projects" element={<Projects/>}/>
         <Route path="/services" element={<Services/>}/>
+        <Route path="/reports" element={<Reports/>}/>
       </Routes>
     </BrowserRouter>
   );
