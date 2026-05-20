@@ -8,6 +8,8 @@ import Projects from "./components/projects";
 import Services from "./components/services";
 import "./App.css";
 import Reports from "./components/reports";
+import Payments from "./components/payments";
+import Fpayments from "./components/fpayments";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/projects" element={<Projects/>}/>
         <Route path="/services" element={<Services/>}/>
         <Route path="/reports" element={<Reports/>}/>
+        <Route path="/payments" element={<Payments/>}/>
+        <Route path="/fpayments" element={<Fpayments/>}/>
       </Routes>
     </BrowserRouter>
   );

@@ -64,7 +64,7 @@ export default function Navbar() {
 
               <input
                 type="text"
-                placeholder="بحث عن مشاريع . . ."
+                placeholder=". . . بحث عن مشاريع"
                 className="bg-gray-200 border border-gray-300 rounded-xl h-10 pr-9 pl-4 text-right text-sm w-52 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -119,7 +119,7 @@ export default function Navbar() {
 
               <input
                 type="text"
-                placeholder="بحث عن مشاريع . . ."
+                placeholder=". . . بحث عن مشاريع"
                 className="w-full bg-gray-200 border border-gray-300 rounded-xl h-10 pr-9 pl-4 text-right text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
