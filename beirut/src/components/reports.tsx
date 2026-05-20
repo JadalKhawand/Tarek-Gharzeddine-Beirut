@@ -22,7 +22,7 @@ function Reports() {
   ];
   return (
     <>
-      <div className="flex flex-row-reverse m-10 gap-6">
+      <div className="flex xl:flex-row-reverse flex-col m-10 gap-6">
         <form className="border border-gray-400 py-5 px-10 text-right rounded-xl flex-1">
           <div className="flex flex-col gap-2 py-2 pb-7">
             <h1 className="text-3xl font-semibold text-green-800">
@@ -35,7 +35,7 @@ function Reports() {
           <div>
             <p className="text-2xl font-semibold text-right">اختر فئة البلاغ</p>
 
-            <div className="flex flex-row-reverse gap-4 mt-4">
+            <div className="flex sm:flex-row-reverse flex-col gap-4 mt-4">
               {categories.map((category) => {
                 const isSelected = selectedCategory === category.title;
                 return (
@@ -73,7 +73,7 @@ function Reports() {
               placeholder="...يرجى كتابة تفاصيل الشكوى هنا"
             ></textarea>
           </div>
-          <div className="flex flex-row-reverse items-center place-content-between py-4 gap-6">
+          <div className="flex sm:flex-row-reverse flex-col items-center place-content-between py-4 gap-6">
             <div className="w-full p-3 focus:outline-none focus:ring-2 focus:ring-green-500 text-righ">
               <label htmlFor="المنطقة / الحي">:المنطقة / الحي</label>
               <input
@@ -145,8 +145,8 @@ function Reports() {
             </button>
           </div>
         </form>
-        <div className="flex flex-col items-center gap-6 ">
-          <div className="flex flex-col text-right border border-gray-400 bg-gray-100 p-5 rounded-xl flex-3 w-full gap-3">
+        <div className="flex xl:flex-col md:flex-row-reverse flex-col flex-wrap items-center gap-6 ">
+          <div className="flex flex-col text-right border border-gray-400 bg-gray-100 p-5 rounded-xl flex-1 w-full gap-3">
             <div className="flex flex-row-reverse gap-3 pr-10 items-center py-3">
               <FontAwesomeIcon icon={faGlobe} className="text-green-700" />
               <p className="text-2xl font-semibold">تتبع حالة بلاغ</p>
@@ -166,7 +166,7 @@ function Reports() {
             </div>
           </div>
           <div
-            className="flex flex-col text-right border border-gray-400 bg-gray-100 p-5 rounded-xl flex-3 w-full gap-3"
+            className="flex flex-col text-right border border-gray-400 bg-gray-100 p-5 rounded-xl w-full gap-3 flex-1"
           >
             {/* Title */}
             <div>
@@ -231,7 +231,7 @@ function Reports() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col bg-gray-100 border border-gray-300 p-5 rounded-xl gap-4 w-full text-right">
+          <div className="flex flex-col bg-gray-100 border border-gray-300 p-5 rounded-xl gap-4 w-full text-right flex-1">
             <div className="text-2xl">
                 <h1>إرشادات التقديم</h1>
             </div>

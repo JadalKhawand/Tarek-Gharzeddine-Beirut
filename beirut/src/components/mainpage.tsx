@@ -2,6 +2,7 @@ import BeirutMain from "../assets/beirut-main.png";
 import Card1 from "../assets/card1.png";
 import Card2 from "../assets/card2.png";
 import Card3 from "../assets/card3.png";
+import { NavLink } from "react-router-dom";
 import Footer from "./footer";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -21,7 +22,7 @@ const news = [
     desc: 'ضمن مبادرة "بيروت الخضراء"، تم اليوم افتتاح مساحة ترفيهية متكاملة لخدمة أهالي المنطقة..',
     date: "٠٨ مايو ٢٠٢٤",
     readTime: "٤ دقائق قراءة",
-    src:Card1,
+    src: Card1,
   },
   {
     category: "تحول رقمي",
@@ -30,7 +31,7 @@ const news = [
     desc: "بإمكان المواطنين الآن تقديم ومتابعة طلبات رخص البناء والترميم إلكترونياً بالكامل..",
     date: "١٠ مايو ٢٠٢٤",
     readTime: "٣ دقائق قراءة",
-    src:Card2,
+    src: Card2,
   },
   {
     category: "تطوير حضري",
@@ -39,14 +40,16 @@ const news = [
     desc: "تبدأ البلدية المرحلة الأولى من مشروع ترميم الواجهات التاريخية بالتعاون مع خبراء دوليين..",
     date: "١٢ مايو ٢٠٢٤",
     readTime: "٥ دقائق قراءة",
-    src:Card3,
+    src: Card3,
   },
 ];
 function Mainpage() {
   return (
     <>
       <div className="align-center m-auto text-center mt-10 flex flex-col bg-linear-to-t from-blue-600 to-white">
-        <h1 className="lg:text-6xl md:text-5xl sm:text-2xl font-bold text-green-800 mb-10">بلدية بيروت</h1>
+        <h1 className="lg:text-6xl md:text-5xl sm:text-2xl font-bold text-green-800 mb-10">
+          بلدية بيروت
+        </h1>
         <h3 className="md:text-xl text-green-700 text-lg">
           .نحو مدينة ذكية ومستدامة توفر أرقى الخدمات الرقمية لمواطنيها، بكل
           شفافية وسهولة في الوصول
@@ -72,25 +75,25 @@ function Mainpage() {
         {/* Service icons */}
         <div className="flex md:flex-row-reverse flex-wrap items-center gap-5 place-content-center mb-10 px-10">
           {[
-            { icon: faMoneyBill, label: "الدفع الإلكتروني" },
-            { icon: faTriangleExclamation, label: "الشكاوى" },
-            { icon: faNewspaper, label: "الأخبار" },
-            { icon: faCompassDrafting, label: "المشاريع" },
-            { icon: faFileLines, label: "المعاملات" },
+            { icon: faMoneyBill, label: "الدفع الإلكتروني", path: "/payment" },
+            { icon: faTriangleExclamation, label: "الشكاوى", path: "/reports" },
+            { icon: faNewspaper, label: "الأخبار", path: "/news" },
+            { icon: faCompassDrafting, label: "المشاريع", path: "/projects" },
+            { icon: faFileLines, label: "المعاملات", path: "/transactions" },
           ].map((item) => (
-            <div
+            <NavLink
               key={item.label}
-              className="border border-gray-200 w-44 h-36 place-content-center flex flex-col items-center rounded-2xl hover:shadow-md transition cursor-pointer"
+              to={item.path}
+              className="border border-gray-200 w-44 h-36 place-content-center flex flex-col items-center rounded-2xl hover:shadow-md transition"
             >
               <FontAwesomeIcon
                 icon={item.icon}
                 className="bg-gray-100 px-4 py-4 rounded-xl mb-3 text-green-600 text-xl"
               />
               <p className="font-semibold text-sm">{item.label}</p>
-            </div>
+            </NavLink>
           ))}
         </div>
-
         {/* Stats bar */}
         <div className="flex md:flex-row-reverse flex-col gap-3 items-center bg-green-900 text-white place-content-center py-8 mb-10">
           {[
