@@ -45,3 +45,17 @@ export async function getAllComplaints(req, res) {
     res.status(500).json({ error: "Failed to fetch complaints" });
   }
 }
+export async function updateComplaintStatus(req, res) {
+  try {
+    const { status } = req.body;
+    const complaint = await Complaint.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+    if (!complaint) return res.status(404).json({ error: "Complaint not found" });
+    res.json(complaint);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update status" });
+  }
+}

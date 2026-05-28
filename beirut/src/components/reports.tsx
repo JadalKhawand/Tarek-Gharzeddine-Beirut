@@ -2,12 +2,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Map from "../assets/Beirut-map.png";
 import { useNavigate } from "react-router-dom";
 import {
-  faRoadCircleExclamation, faTrashCan, faLightbulb, faTree,
-  faCamera, faGlobe, faCircleCheck, faXmark,
+  faRoadCircleExclamation,
+  faTrashCan,
+  faLightbulb,
+  faTree,
+  faCamera,
+  faGlobe,
+  faCircleCheck,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import Footer from "./footer";
 import { useAuth } from "../context/AuthContext";
+import AdminComplaints from "./adminComplaints";
 
 function Reports() {
   const [selectedCategory, setSelectedCategory] = useState("الطرق والأرصفة");
@@ -18,9 +25,9 @@ function Reports() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
-
-  const { token } = useAuth();
   const navigate = useNavigate();
+  const { token, user } = useAuth();
+  const isAdmin = user?.role === "admin";
 
   const categories = [
     { title: "الطرق والأرصفة", icon: faRoadCircleExclamation },
@@ -74,13 +81,18 @@ function Reports() {
     }
   };
 
+  if (isAdmin) return <AdminComplaints token={token} />;
   return (
     <>
       <div className="flex xl:flex-row-reverse flex-col my-10 mx-5 gap-6">
         <div className="border border-gray-400 py-5 px-10 text-right rounded-xl flex-1">
           <div className="flex flex-col gap-2 py-2 pb-7">
-            <h1 className="text-3xl font-semibold text-green-800">تقديم شكوى أو اقتراح</h1>
-            <p className="text-gray-600">.نسعى دائماً لتحسين خدماتنا من خلال ملاحظاتكم</p>
+            <h1 className="text-3xl font-semibold text-green-800">
+              تقديم شكوى أو اقتراح
+            </h1>
+            <p className="text-gray-600">
+              .نسعى دائماً لتحسين خدماتنا من خلال ملاحظاتكم
+            </p>
           </div>
 
           <div>
@@ -96,7 +108,10 @@ function Reports() {
                     className={`flex-1 border rounded-xl p-5 flex flex-col items-center justify-center gap-3 transition cursor-pointer text-center
                       ${isSelected ? "border-green-700 bg-green-50 text-green-700" : "border-gray-300 hover:border-green-400 hover:bg-gray-50"}`}
                   >
-                    <FontAwesomeIcon icon={category.icon} className="text-3xl" />
+                    <FontAwesomeIcon
+                      icon={category.icon}
+                      className="text-3xl"
+                    />
                     <p className="font-medium">{category.title}</p>
                   </button>
                 );
@@ -147,9 +162,16 @@ function Reports() {
                 className="hidden"
                 onChange={handleImageChange}
               />
-              <FontAwesomeIcon icon={faCamera} className="text-5xl text-gray-500" />
-              <p className="text-gray-700 text-center">قم بسحب وإفلات الصور هنا أو اضغط للاختيار</p>
-              <p className="text-sm text-gray-400">الحد الأقصى: 3 صور، 5 ميجابايت لكل صورة</p>
+              <FontAwesomeIcon
+                icon={faCamera}
+                className="text-5xl text-gray-500"
+              />
+              <p className="text-gray-700 text-center">
+                قم بسحب وإفلات الصور هنا أو اضغط للاختيار
+              </p>
+              <p className="text-sm text-gray-400">
+                الحد الأقصى: 3 صور، 5 ميجابايت لكل صورة
+              </p>
             </label>
 
             {/* Image previews */}
@@ -207,7 +229,9 @@ function Reports() {
               <FontAwesomeIcon icon={faGlobe} className="text-green-700" />
               <p className="text-2xl font-semibold">تتبع حالة بلاغ</p>
             </div>
-            <div>أدخل رقم المرجع الذي وصلك عبر الرسائل النصية لمتابعة حالة طلبك</div>
+            <div>
+              أدخل رقم المرجع الذي وصلك عبر الرسائل النصية لمتابعة حالة طلبك
+            </div>
             <div className="flex flex-col gap-5 mt-4">
               <input
                 type="text"
@@ -230,19 +254,27 @@ function Reports() {
                 <div className="w-3 h-3 bg-green-700 rounded-full mt-2" />
                 <div>
                   <p className="font-bold text-gray-800">تم إصلاح عطل إنارة</p>
-                  <p className="text-sm text-gray-500">منطقة الرمل - منذ ساعتين</p>
+                  <p className="text-sm text-gray-500">
+                    منطقة الرمل - منذ ساعتين
+                  </p>
                 </div>
               </div>
               <div className="flex flex-row-reverse items-start gap-3">
                 <div className="w-3 h-3 bg-green-700 rounded-full mt-2" />
                 <div>
                   <p className="font-bold text-gray-800">اكتمال حملة النظافة</p>
-                  <p className="text-sm text-gray-500">شارع ليس - منذ 5 ساعات</p>
+                  <p className="text-sm text-gray-500">
+                    شارع ليس - منذ 5 ساعات
+                  </p>
                 </div>
               </div>
             </div>
             <div className="relative rounded-xl">
-              <img src={Map} alt="خريطة البلاغات" className="w-full h-full object-cover" />
+              <img
+                src={Map}
+                alt="خريطة البلاغات"
+                className="w-full h-full object-cover"
+              />
               <div className="absolute bottom-3 right-3 bg-black/40 text-white text-sm px-3 py-1 rounded-lg">
                 خريطة البلاغات المنجزة
               </div>
@@ -250,18 +282,29 @@ function Reports() {
           </div>
 
           <div className="flex flex-col bg-gray-100 border border-gray-300 p-5 rounded-xl gap-4 w-full text-right flex-1">
-            <div className="text-2xl"><h1>إرشادات التقديم</h1></div>
+            <div className="text-2xl">
+              <h1>إرشادات التقديم</h1>
+            </div>
             <div className="flex flex-col gap-3 pr-10">
               <div className="flex flex-row-reverse items-center gap-3">
-                <FontAwesomeIcon icon={faCircleCheck} className="text-green-700" />
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-green-700"
+                />
                 <p>تأكد من صحة الموقع الجغرافي</p>
               </div>
               <div className="flex flex-row-reverse items-center gap-3">
-                <FontAwesomeIcon icon={faCircleCheck} className="text-green-700" />
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-green-700"
+                />
                 <p>أرفق صوراً واضحة للمشكلة</p>
               </div>
               <div className="flex flex-row-reverse items-center gap-3">
-                <FontAwesomeIcon icon={faCircleCheck} className="text-green-700" />
+                <FontAwesomeIcon
+                  icon={faCircleCheck}
+                  className="text-green-700"
+                />
                 <p>سيتم الرد خلال 48 ساعة عمل</p>
               </div>
             </div>

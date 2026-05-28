@@ -5,7 +5,7 @@ const saltRounds = 10;
 
 export async function register(req, res) {
   try {
-    const { name, email, password, phone } = req.body;
+    const { name, email, password, phone, role } = req.body;
     if (!name || !email || !password) {
       return res.status(400).json({ error: "name, email and password are required" });
     }
@@ -16,10 +16,10 @@ export async function register(req, res) {
     }
 
     const hashedPass = bcrypt.hashSync(password, saltRounds);
-    const created = new User({ name, email, password: hashedPass, phone });
+    const created = new User({ name, email, password: hashedPass, phone, role });
     await created.save();
 
-    const safeUser = { id: created._id.toString(), name: created.name, email: created.email };
+    const safeUser = { id: created._id.toString(), name: created.name, email: created.email, role: created.role };
     const token = jwt.sign({ user: safeUser }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.json({ success: true, message: "تم إنشاء الحساب بنجاح", token });
@@ -46,7 +46,7 @@ export async function login(req, res) {
       return res.status(401).json({ error: "كلمة المرور غير صحيحة" });
     }
 
-    const safeUser = { id: user._id.toString(), name: user.name, email: user.email };
+    const safeUser = { id: user._id.toString(), name: user.name, email: user.email, role: user.role };
     const token = jwt.sign({ user: safeUser }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
     res.json({ success: true, token, user: safeUser });
