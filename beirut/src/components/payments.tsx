@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
+import PaymentHistoryModal from "./paymenthistory";
 
 function Payments() {
   const [selectedFee, setSelectedFee] = useState("cleaning");
@@ -50,9 +51,9 @@ function Payments() {
       <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col gap-4">
 
         {/* Fee selection */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-5">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 text-right">
           <p className="text-base font-semibold text-gray-800 mb-4">اختيار الرسوم المستحقة</p>
-          <div className="flex flex-row-reverse gap-3">
+          <div className="flex md:flex-row-reverse flex-col gap-3">
             {fees.map((fee) => {
               const isSelected = selectedFee === fee.id;
               return (
@@ -86,10 +87,10 @@ function Payments() {
         </div>
 
         {/* Billing info */}
-        <div className="bg-white border border-gray-200 rounded-2xl p-5">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 text-right">
           <p className="text-base font-semibold text-gray-800 mb-4">معلومات الفوترة</p>
 
-          <div className="flex flex-row-reverse gap-4 mb-4">
+          <div className="flex md:flex-row-reverse flex-col gap-4 mb-4">
             <div className="flex-1 flex flex-col gap-1.5">
               <label className="text-sm text-gray-500 text-right">الاسم الكامل</label>
               <input
@@ -106,7 +107,7 @@ function Payments() {
             </div>
           </div>
 
-          <div className="flex flex-row-reverse gap-4 mb-4">
+          <div className="flex md:flex-row-reverse flex-col gap-4 mb-4">
             <div className="flex-1 flex flex-col gap-1.5">
               <label className="text-sm text-gray-500 text-right">رقم الهاتف</label>
               <input
@@ -147,6 +148,10 @@ function Payments() {
           </div>
         </div>
 
+      </div>
+      {/* Payment history modal */}
+      <div className="max-w-4xl mx-auto px-4 py-1 pb-4 bg-green-600 rounded-2xl">
+        <PaymentHistoryModal />
       </div>
     </div>
   );

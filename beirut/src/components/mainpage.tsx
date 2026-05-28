@@ -47,7 +47,7 @@ function Mainpage() {
   return (
     <>
       <div className="align-center m-auto text-center mt-10 flex flex-col bg-linear-to-t from-blue-600 to-white">
-        <h1 className="lg:text-6xl md:text-5xl sm:text-2xl font-bold text-green-800 mb-10">
+        <h1 className="lg:text-6xl md:text-5xl text-2xl font-bold text-green-800 mb-10">
           بلدية بيروت
         </h1>
         <h3 className="md:text-xl text-green-700 text-lg">
@@ -61,7 +61,7 @@ function Mainpage() {
         <div className="h-1.5 bg-green-800" />
 
         {/* Vision section - dashed border box */}
-        <div className="mx-16 my-8 border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center flex flex-col gap-3">
+        <div className="md:mx-16 mx-5 my-8 border-2 border-dashed border-gray-300 rounded-2xl p-8 text-center flex flex-col gap-3">
           <p className="text-green-800 font-semibold text-sm">التحول الرقمي</p>
           <p className="text-3xl font-bold">رؤية بيروت للمستقبل</p>
           <p className="text-gray-600 text-sm leading-relaxed max-w-2xl mx-auto">
@@ -79,7 +79,7 @@ function Mainpage() {
             { icon: faTriangleExclamation, label: "الشكاوى", path: "/reports" },
             { icon: faNewspaper, label: "الأخبار", path: "/news" },
             { icon: faCompassDrafting, label: "المشاريع", path: "/projects" },
-            { icon: faFileLines, label: "المعاملات", path: "/transactions" },
+            { icon: faFileLines, label: "المعاملات", path: "/municipality" },
           ].map((item) => (
             <NavLink
               key={item.label}
@@ -116,10 +116,15 @@ function Mainpage() {
         <div className="md:mx-40 mx-10 mb-16">
           {/* News header */}
           <div className="flex flex-row-reverse items-center justify-between mb-6">
-            <button className="flex flex-row-reverse items-center gap-1 text-green-700 text-sm font-medium hover:underline cursor-pointer">
+            <a
+              href="https://www.lebanonfiles.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-row-reverse items-center gap-1 text-green-700 text-sm font-medium hover:underline cursor-pointer"
+            >
               <FontAwesomeIcon icon={faArrowLeft} className="text-xs" />
               مشاهدة الكل
-            </button>
+            </a>
             <div className="text-right flex flex-col gap-2">
               <h2 className="text-2xl font-bold text-gray-900">آخر الأخبار</h2>
               <p className="text-sm text-gray-500">

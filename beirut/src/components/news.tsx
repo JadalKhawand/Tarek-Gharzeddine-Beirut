@@ -17,6 +17,7 @@ import {
   faCalendarPlus,
   faBullhorn,
 } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 function News() {
   return (
     <>
@@ -97,7 +98,9 @@ function News() {
             </p>
 
             <div className="flex flex-row-reverse items-center gap-6 flex-wrap">
-              <button
+              <a                href="https://aawsat.com/home/article/1577876/مشروع-«بيروت-الخضراء»-حلم-يُترجم-على-الأرض-بهمة-الشباب"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="
             text-green-800
             bg-white
@@ -111,7 +114,7 @@ function News() {
               >
                 <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
                 اقرأ المزيد
-              </button>
+              </a>
 
               <p>١٤ مايو ٢٠٢٤</p>
             </div>
@@ -137,7 +140,6 @@ function News() {
         hover:bg-gray-100
         hover:shadow-xl
         hover:-translate-y-1
-        cursor-pointer
         w-full md:w-[48%] xl:w-full
       "
           >
@@ -171,7 +173,6 @@ function News() {
         hover:bg-gray-100
         hover:shadow-xl
         hover:-translate-y-1
-        cursor-pointer
         w-full md:w-[48%] xl:w-full
       "
           >
@@ -207,7 +208,6 @@ function News() {
         hover:bg-gray-100
         hover:shadow-xl
         hover:-translate-y-1
-        cursor-pointer
         w-full md:w-[48%] xl:w-full
       "
           >
@@ -232,13 +232,18 @@ function News() {
           <p className="md:text-3xl text-xl font-semibold text-green-900">
             آخر التعاميم والإعلانات
           </p>
-          <div className="flex flex-row-reverse text-green-900 items-center">
+          <a
+            href="https://www.lebanonfiles.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex flex-row-reverse text-green-900 items-center"
+          >
             <p>عرض الكل</p>
             <FontAwesomeIcon icon={faAngleLeft} />
-          </div>
+          </a>
         </div>
         <div className="flex flex-row-reverse flex-wrap place-content-center gap-5 my-10">
-          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-110">
+          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-100">
             <div className="flex flex-row-reverse place-content-between">
               <FontAwesomeIcon
                 icon={faMoneyBill}
@@ -255,12 +260,17 @@ function News() {
                 نهاية الشهر القادم لتسهيل أمور
               </p>
             </div>
-            <div className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold">
+            <a
+              href="https://www.mtv.com.lb/news/1251388"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold"
+            >
               <p>التفاصيل</p>
               <FontAwesomeIcon icon={faAngleLeft} />
-            </div>
+            </a>
           </div>
-          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-110">
+          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-100">
             <div className="flex flex-row-reverse place-content-between">
               <FontAwesomeIcon
                 icon={faScrewdriverWrench}
@@ -275,12 +285,17 @@ function News() {
                 الرئيسية ابتداءً من ليل الغد
               </p>
             </div>
-            <div className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold">
+            <a
+              href="https://al-jareeda.com/archives/777709"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold"
+            >
               <p>التفاصيل</p>
               <FontAwesomeIcon icon={faAngleLeft} />
-            </div>
+            </a>
           </div>
-          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-110">
+          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-100">
             <div className="flex flex-row-reverse place-content-between">
               <FontAwesomeIcon
                 icon={faHelmetSafety}
@@ -295,12 +310,17 @@ function News() {
                 النفايات في بيروت
               </p>
             </div>
-            <div className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold">
+            <a
+              href="https://www.ppa.gov.lb/ar/tenders/details/11632"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold"
+            >
               <p>التفاصيل</p>
               <FontAwesomeIcon icon={faAngleLeft} />
-            </div>
+            </a>
           </div>
-          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-110">
+          <div className="border border-gray-300 flex flex-col text-right w-80 p-5 gap-5 rounded-2xl transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-100">
             <div className="flex flex-row-reverse place-content-between">
               <FontAwesomeIcon
                 icon={faCircleInfo}
@@ -317,10 +337,15 @@ function News() {
                 البلاغات بسهولة
               </p>
             </div>
-            <div className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold">
+            <a
+              href="https://foo-baladiyetbeirut.andro.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex flex-row-reverse items-center text-green-700 justify-end hover:text-green-900 cursor-pointer font-semibold"
+            >
               <p>التفاصيل</p>
               <FontAwesomeIcon icon={faAngleLeft} />
-            </div>
+            </a>
           </div>
         </div>
       </div>
@@ -388,19 +413,29 @@ function News() {
               <img src={Bin} alt="Recycle bin" />
               <p className="text-xl text-green-700">بيروت تفرز</p>
               <p>حملة شاملة لفرز النفايات من المصدر في كافة الوحدات السكنية</p>
-              <div className="text-lg text-green-800 font-semibold flex flex-row-reverse items-center cursor-pointer">
+              <a
+                href="https://www.facebook.com/beirutmunicipality/photos/a.357028201111154/1138735342940432/?locale=ms_MY"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg text-green-800 font-semibold flex flex-row-reverse items-center cursor-pointer"
+              >
                 <p>تعرف على الطريقة</p>
                 <p className="font-bold">←</p>
-              </div>
+              </a>
             </div>
             <div className="flex flex-col flex-1 p-4 bg-white border-2 border-gray-400 rounded-2xl text-right gap-3 transition hover:bg-gray-100 hover:shadow-xl delay-100 ease-in-out hover:-translate-y-1 hover:scale-100">
               <img src={Water} alt="Recycle bin" />
               <p className="text-xl text-green-700">وفر في المياه</p>
               <p>نصائح عملية لترشيد استهلاك المياه في فصل الصيف الحار</p>
-              <div className="text-lg text-green-800 font-semibold flex flex-row-reverse items-center cursor-pointer">
+              <a
+                href="https://www.facebook.com/ebmlgov/posts/وفر-عليك-مشوار-ونطرة-وسدد-فواتيرك-اونلاين-من-خلال-مياه_بيروت_و_جبل_لبنان/3117808268542022/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-lg text-green-800 font-semibold flex flex-row-reverse items-center cursor-pointer"
+              >
                 <p>نصائح التوفير</p>
                 <p className="font-bold">←</p>
-              </div>
+              </a>
             </div>
           </div>
           <div className="bg-green-900 flex md:flex-row-reverse flex-col text-right p-5 place-content-between items-center rounded-2xl">
@@ -408,9 +443,9 @@ function News() {
               <p className="text-xl">هل لديك بلاغ؟</p>
               <p>.ساهم في تحسين مدينتنا وابلغ عن أي عطل</p>
             </div>
-            <div className="bg-white text-green-800 rounded-lg py-2 px-5 cursor-pointer hover:bg-gray-100">
-              <p>ابلغ الآن</p>
-            </div>
+            <NavLink to="/reports" className="bg-white text-green-800 rounded-lg py-2 px-5 cursor-pointer hover:bg-gray-100">
+              ابلغ الآن
+            </NavLink>
           </div>
         </div>
       </div>

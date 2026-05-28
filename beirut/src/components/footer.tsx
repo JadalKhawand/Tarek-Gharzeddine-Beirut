@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMedal, faCubes, faRecycle } from "@fortawesome/free-solid-svg-icons";
+import { NavLink } from "react-router-dom";
 
 function Footer() {
   return (
@@ -14,9 +15,9 @@ function Footer() {
             اللبنانية بكل نزاهة وابتكار
           </p>
           <div className="flex flex-row-reverse gap-4 text-green-800 text-xl">
-            <FontAwesomeIcon icon={faMedal} className="hover:text-green-600 cursor-pointer" />
-            <FontAwesomeIcon icon={faCubes} className="hover:text-green-600 cursor-pointer" />
-            <FontAwesomeIcon icon={faRecycle} className="hover:text-green-600 cursor-pointer" />
+            <FontAwesomeIcon icon={faMedal} className="hover:text-green-600" />
+            <FontAwesomeIcon icon={faCubes} className="hover:text-green-600" />
+            <FontAwesomeIcon icon={faRecycle} className="hover:text-green-600" />
           </div>
         </div>
 
@@ -54,9 +55,9 @@ function Footer() {
               placeholder="البريد الإلكتروني"
               className="flex-1 border border-green-600 text-right text-sm h-full px-2 bg-white rounded-r-md outline-none focus:ring-1 focus:ring-green-500"
             />
-            <button className="bg-green-900 h-full px-4 text-white text-sm hover:bg-green-700 transition rounded-l-md cursor-pointer whitespace-nowrap">
+            <NavLink to="/login" className="bg-green-900 h-full px-4 text-white text-sm hover:bg-green-700 transition rounded-l-md cursor-pointer whitespace-nowrap flex items-center">
               انضمام
-            </button>
+            </NavLink>
           </div>
         </div>
       </div>
@@ -65,9 +66,9 @@ function Footer() {
       <div className="flex flex-row-reverse md:place-content-between place-content-center px-20 py-5 bg-gray-100 text-sm text-green-900">
         <div>.2024 بلدية بيروت. جميع الحقوق محفوظة ©</div>
         <div className=" flex-row-reverse gap-6 hidden md:flex">
-          <p className="hover:text-green-600 cursor-pointer">سياسة الخصوصية</p>
-          <p className="hover:text-green-600 cursor-pointer">شروط الخدمة</p>
-          <p className="hover:text-green-600 cursor-pointer">إمكانية الوصول</p>
+          <p>سياسة الخصوصية</p>
+          <p>شروط الخدمة</p>
+          <p >إمكانية الوصول</p>
         </div>
       </div>
     </>

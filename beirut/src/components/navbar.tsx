@@ -2,15 +2,17 @@ import { NavLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Navbar() {
+  const { user, logout, isAuthenticated } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `relative pb-1 transition hover:text-green-700 ${
-    isActive
-      ? "text-green-700 font-bold after:content-[''] after:absolute after:right-0 after:bottom-0 after:w-full after:h-0.5 after:bg-green-700"
-      : "text-gray-700"
+      isActive
+        ? "text-green-700 font-bold after:content-[''] after:absolute after:right-0 after:bottom-0 after:w-full after:h-0.5 after:bg-green-700"
+        : "text-gray-700"
     }`;
 
   return (
@@ -19,7 +21,6 @@ export default function Navbar() {
 
       <div className="bg-gray-100 shadow-sm px-6 xl:px-20 py-4">
         <div className="flex items-center justify-between flex-row-reverse">
-          
           {/* Right Side */}
           <div className="flex items-center gap-8 flex-row-reverse">
             <h1 className="text-green-700 font-bold text-xl whitespace-nowrap">
@@ -69,9 +70,26 @@ export default function Navbar() {
               />
             </div>
 
-            <button className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-green-600 transition whitespace-nowrap">
-              دخول المواطن
-            </button>
+            {isAuthenticated ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-green-800 font-medium">
+                  {user?.name}
+                </span>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-100 transition"
+                >
+                  تسجيل الخروج
+                </button>
+              </div>
+            ) : (
+              <NavLink to="/login">
+                <button className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-green-600 transition cursor-pointer w-full">
+                  دخول المواطن
+                </button>
+              </NavLink>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -124,9 +142,26 @@ export default function Navbar() {
               />
             </div>
 
-            <button className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-green-600 transition">
-              دخول المواطن
-            </button>
+            {isAuthenticated ? (
+              <div className="flex items-center gap-3">
+                <span className="text-sm text-green-800 font-medium">
+                  {user?.name}
+                </span>
+                <button
+                  type="button"
+                  onClick={logout}
+                  className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-100 transition"
+                >
+                  تسجيل الخروج
+                </button>
+              </div>
+            ) : (
+              <NavLink to="/login">
+                <button className="bg-green-700 text-white px-5 py-2 rounded-xl text-sm font-medium hover:bg-green-600 transition cursor-pointer w-full">
+                  دخول المواطن
+                </button>
+              </NavLink>
+            )}
           </div>
         )}
       </div>
