@@ -72,13 +72,19 @@ export default function Navbar() {
 
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
-                <span className="text-sm text-green-800 font-medium">
-                  {user?.name}
-                </span>
+                <NavLink
+                  to="/dashboard"
+                  className="flex items-center gap-2 text-sm text-green-800 font-medium hover:underline"
+                >
+                  <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    {user?.name?.charAt(0)}
+                  </div>
+                  <span>أهلاً، {user?.name}</span>
+                </NavLink>
                 <button
                   type="button"
                   onClick={logout}
-                  className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-100 transition"
+                  className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-100 transition cursor-pointer"
                 >
                   تسجيل الخروج
                 </button>
@@ -144,13 +150,19 @@ export default function Navbar() {
 
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
-                <span className="text-sm text-green-800 font-medium">
-                  {user?.name}
-                </span>
+                <NavLink
+                  to="/dashboard"
+                  className="flex items-center gap-2 text-sm text-green-800 font-medium hover:underline"
+                >
+                  <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    {user?.name?.charAt(0)}
+                  </div>
+                  <span>أهلاً، {user?.name}</span>
+                </NavLink>
                 <button
                   type="button"
                   onClick={logout}
-                  className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-100 transition"
+                  className="bg-red-50 text-red-600 px-4 py-2 rounded-xl text-sm font-medium hover:bg-red-100 transition cursor-pointer"
                 >
                   تسجيل الخروج
                 </button>

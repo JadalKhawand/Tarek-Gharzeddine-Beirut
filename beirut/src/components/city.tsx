@@ -291,7 +291,7 @@ function City() {
           </div>
           
           <NavLink
-            to="/reports"
+            to="/dashboard/complaints"
             className="flex items-center gap-2 bg-white text-green-900 font-semibold text-sm px-5 py-3 rounded-xl whitespace-nowrap cursor-pointer hover:bg-green-50 transition"
           >
             <FontAwesomeIcon icon={faMap} />

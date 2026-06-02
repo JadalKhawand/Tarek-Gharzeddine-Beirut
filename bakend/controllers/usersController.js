@@ -47,7 +47,7 @@ export async function login(req, res) {
     }
 
     const safeUser = { id: user._id.toString(), name: user.name, email: user.email, role: user.role };
-    const token = jwt.sign({ user: safeUser }, process.env.JWT_SECRET, { expiresIn: "1h" });
+    const token = jwt.sign({ user: safeUser }, process.env.JWT_SECRET, { expiresIn: "3h" });
 
     res.json({ success: true, token, user: safeUser });
   } catch (error) {

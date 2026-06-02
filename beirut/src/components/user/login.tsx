@@ -167,7 +167,7 @@ function LoginPage() {
                 <FontAwesomeIcon icon={faLock} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                 <button type="button" onClick={() => setShowPassword(!showPassword)}
                   className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition">
-                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-sm" />
+                  <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="text-sm cursor-pointer" />
                 </button>
               </div>
             </div>
@@ -182,7 +182,7 @@ function LoginPage() {
                   <FontAwesomeIcon icon={faLock} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 text-sm" />
                   <button type="button" onClick={() => setShowConfirm(!showConfirm)}
                     className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500 transition">
-                    <FontAwesomeIcon icon={showConfirm ? faEyeSlash : faEye} className="text-sm" />
+                    <FontAwesomeIcon icon={showConfirm ? faEyeSlash : faEye} className="text-sm cursor-pointer" />
                   </button>
                 </div>
               </div>

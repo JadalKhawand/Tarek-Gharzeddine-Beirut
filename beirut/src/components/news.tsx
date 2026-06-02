@@ -443,7 +443,7 @@ function News() {
               <p className="text-xl">هل لديك بلاغ؟</p>
               <p>.ساهم في تحسين مدينتنا وابلغ عن أي عطل</p>
             </div>
-            <NavLink to="/reports" className="bg-white text-green-800 rounded-lg py-2 px-5 cursor-pointer hover:bg-gray-100">
+            <NavLink to="/dashboard/complaints" className="bg-white text-green-800 rounded-lg py-2 px-5 cursor-pointer hover:bg-gray-100">
               ابلغ الآن
             </NavLink>
           </div>

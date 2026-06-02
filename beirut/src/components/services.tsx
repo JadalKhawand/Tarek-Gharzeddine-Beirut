@@ -83,7 +83,7 @@ export default function DigitalServices() {
               نسعى دائماً لتحسين خدماتنا من خلال ملاحظاتكم
             </p>
             <NavLink
-              to="/reports"
+              to="/dashboard/complaints"
               className="w-full bg-green-800 text-white py-3 rounded-xl font-semibold flex items-center justify-center gap-2 hover:bg-green-700 transition cursor-pointer"
             >
               <FontAwesomeIcon icon={faBell} />

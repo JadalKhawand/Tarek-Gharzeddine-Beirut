@@ -4,6 +4,9 @@ import dotenv from "dotenv"
 import cors from "cors"
 import UsersRoutes from './routes/usersRoutes.js'
 import complaintsRoutes from './routes/complaintsRoutes.js'
+import remindersRoutes from './routes/remindersRoutes.js'
+import suggestionsRoutes from './routes/suggestionsRoutes.js'
+import paymentsRoutes from './routes/paymentsRoutes.js'
 import dns from "node:dns/promises"
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 dotenv.config();
@@ -27,4 +30,7 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 
 app.use("/auth", UsersRoutes);
 app.use("/complaints", complaintsRoutes);
+app.use("/reminders", remindersRoutes);
+app.use("/suggestions", suggestionsRoutes);
+app.use("/payments", paymentsRoutes);
 app.use("/uploads", express.static("uploads"));

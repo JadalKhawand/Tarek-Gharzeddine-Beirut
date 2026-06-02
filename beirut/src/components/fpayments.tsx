@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCheck,
@@ -12,6 +12,7 @@ import {
   faPhone,
   faTrashCan,
 } from "@fortawesome/free-solid-svg-icons";
+import { useAuth } from "../context/AuthContext";
 
 function Fpayments() {
   const [paymentMethod, setPaymentMethod] = useState<string>("card");
@@ -19,6 +20,8 @@ function Fpayments() {
   const [cardNumber, setCardNumber] = useState<string>("");
   const [expiry, setExpiry] = useState<string>("");
   const [cvv, setCvv] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const formatCardNumber = (val: string): string => {
     return val
@@ -27,12 +30,69 @@ function Fpayments() {
       .replace(/(.{4})/g, "$1 ")
       .trim();
   };
+  const { token } = useAuth();
+  const navigate = useNavigate();
 
+  const handleConfirm = async () => {
+    const pending = JSON.parse(
+      sessionStorage.getItem("pendingPayment") || "null",
+    );
+    setError(null);
+    setLoading(true);
+    if (!pending) {
+      setError("لا توجد دفعة معلقة");
+      setLoading(false);
+      return;
+    }
+    try {
+      const res = await fetch("http://localhost:3000/payments", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          feeType: pending.feeType,
+          amount: pending.amount,
+          billingName: pending.billingName,
+          billingEmail: pending.billingEmail,
+          paymentMethod:
+            paymentMethod === "card" ? "بطاقة ائتمان" : "تحويل مصرفي",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data?.error || "فشل تنفيذ العملية");
+        return;
+      }
+      sessionStorage.setItem("completedPayment", JSON.stringify(data.payment));
+      sessionStorage.removeItem("pendingPayment");
+      navigate("/dashboard/spayment");
+    } catch {
+      setError("فشل الاتصال بالخادم");
+    } finally {
+      setLoading(false);
+    }
+  };
   const formatExpiry = (val: string): string => {
     const digits = val.replace(/\D/g, "").slice(0, 4);
     if (digits.length >= 3) return digits.slice(0, 2) + "/" + digits.slice(2);
     return digits;
   };
+  // add at the top of the Fpayments function, after the state declarations:
+  const pending = JSON.parse(
+    sessionStorage.getItem("pendingPayment") || "null",
+  );
+
+  // calculate a breakdown from the actual amount
+  const baseAmount = pending
+    ? parseInt(pending.amount.replace(/[^0-9]/g, ""))
+    : 0;
+  const adminFee = Math.round(baseAmount * 0.03);
+  const tax = Math.round(baseAmount * 0.11);
+  const total = baseAmount + adminFee + tax;
+
+  const formatAmount = (n: number) => n.toLocaleString("ar-LB") + " ل.ل";
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans">
@@ -83,15 +143,17 @@ function Fpayments() {
             <p className="text-lg font-semibold mb-4">ملخص المعاملة</p>
 
             <div className="flex flex-row-reverse items-center gap-3 bg-green-700 rounded-xl p-3 mb-5">
-              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center shrink-0 cursor-pointer hover:bg-green-500 transition">
+              <button
+                type="button"
+                onClick={() => navigate("/dashboard/payments")}
+                className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center shrink-0 hover:bg-green-500 transition"
+              >
                 <FontAwesomeIcon icon={faTrashCan} className="text-white" />
-              </div>
+              </button>
               <div className="text-right">
-                <p className="text-sm font-medium">
-                  رسوم جمع النفايات المنزلية
-                </p>
+                <p className="text-sm font-medium">{pending?.feeType || "—"}</p>
                 <p className="text-xs text-green-300 mt-0.5">
-                  رقم المعاملة: BRT-2024-8832
+                  رقم المعاملة: BRT-{Date.now().toString().slice(-8)}
                 </p>
               </div>
             </div>
@@ -99,21 +161,21 @@ function Fpayments() {
             <div className="flex flex-col gap-2 text-sm border-b border-green-700 pb-4 mb-4">
               <div className="flex flex-row-reverse justify-between">
                 <span className="text-green-300">المبلغ الأساسي</span>
-                <span>250,000 ل.ل</span>
+                <span>{formatAmount(baseAmount)}</span>
               </div>
               <div className="flex flex-row-reverse justify-between">
-                <span className="text-green-300">رسوم إدارية</span>
-                <span>15,000 ل.ل</span>
+                <span className="text-green-300">رسوم إدارية (3%)</span>
+                <span>{formatAmount(adminFee)}</span>
               </div>
               <div className="flex flex-row-reverse justify-between">
                 <span className="text-green-300">الضريبة (11%)</span>
-                <span>29,150 ل.ل</span>
+                <span>{formatAmount(tax)}</span>
               </div>
             </div>
 
             <div className="flex flex-row-reverse justify-between items-center">
               <span className="text-green-300 text-sm">المجموع الكلي</span>
-              <span className="text-xl font-bold">294,150 ل.ل</span>
+              <span className="text-xl font-bold">{formatAmount(total)}</span>
             </div>
           </div>
 
@@ -349,16 +411,23 @@ function Fpayments() {
               </span>
             </div>
 
+            {error && (
+              <div className="mb-3 text-right text-sm text-red-600">
+                {error}
+              </div>
+            )}
+
             <div className="flex flex-row-reverse gap-3">
+              <button
+                type="button"
+                onClick={handleConfirm}
+                disabled={loading}
+                className="flex-1 bg-green-700 hover:bg-green-600 text-white font-medium py-3 rounded-xl transition text-sm text-center disabled:opacity-50"
+              >
+                {loading ? "جاري المعالجة..." : "تأكيد ودفع الرسوم"}
+              </button>
               <NavLink
                 to="/spayment"
-                type="button"
-                className="flex-1 bg-green-700 hover:bg-green-600 text-white font-medium py-3 rounded-xl transition text-sm text-center"
-              >
-                تأكيد ودفع الرسوم
-              </NavLink>
-              <NavLink
-                to="/payments"
                 className="px-5 py-3 border border-gray-200 rounded-xl text-sm text-gray-600 hover:bg-gray-50 transition text-center"
               >
                 إلغاء المعاملة

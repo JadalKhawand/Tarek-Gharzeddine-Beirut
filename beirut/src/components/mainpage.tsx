@@ -75,8 +75,8 @@ function Mainpage() {
         {/* Service icons */}
         <div className="flex md:flex-row-reverse flex-wrap items-center gap-5 place-content-center mb-10 px-10">
           {[
-            { icon: faMoneyBill, label: "الدفع الإلكتروني", path: "/payments" },
-            { icon: faTriangleExclamation, label: "الشكاوى", path: "/reports" },
+            { icon: faMoneyBill, label: "الدفع الإلكتروني", path: "/dashboard/fpayments" },
+            { icon: faTriangleExclamation, label: "الشكاوى", path: "/dashboard/complaints" },
             { icon: faNewspaper, label: "الأخبار", path: "/news" },
             { icon: faCompassDrafting, label: "المشاريع", path: "/projects" },
             { icon: faFileLines, label: "المعاملات", path: "/municipality" },
