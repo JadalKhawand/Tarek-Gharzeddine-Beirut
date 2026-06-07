@@ -15,29 +15,9 @@ import {
 import { useAuth } from "../context/AuthContext";
 import Footer from "./footer";
 import RemindersModal from "./remindersmodal";
+import PaymentHistoryModal from "./paymenthistory";
+import { NameDisplay } from "./nameUtils";
 // ── Static mock data ──────────────────────────────────────────────────────────
-const activity = [
-  {
-    color: "bg-green-500",
-    title: "تم دفع رسوم رخصة البناء",
-    sub: "رقم المعاملة: TRX-992814",
-  },
-  {
-    color: "bg-orange-400",
-    title: "تحديث حالة بلاغ: صيانة إنارة الشوارع",
-    sub: "تم تحويل البلاغ إلى القسم الفني المختص",
-  },
-  {
-    color: "bg-blue-500",
-    title: "تقديم طلب جديد: إقامة سكن",
-    sub: "بانتظار المراجعة الإدارية الأولية",
-  },
-  {
-    color: "bg-red-500",
-    title: "تنبيه رسوم متأخرة",
-    sub: "يُرجى تسديد رسوم النظافة خلال الشهر الحال لتجنب الغرامة",
-  },
-];
 
 const timeFilters = ["منذ مالفين", "يوم أمس", "آخر أسبوع", "أسبوع ماضي"];
 
@@ -84,60 +64,116 @@ function DashboardOverview() {
   const [reminderCount, setReminderCount] = useState(0);
   const [remindersOpen, setRemindersOpen] = useState(false);
   const [requestCount, setRequestCount] = useState(0);
+  const [totalFees, setTotalFees] = useState(0);
+  const [feeCount, setFeeCount] = useState(0);
+  const [activity, setActivity] = useState<
+    { color: string; title: string; sub: string; time: string }[]
+  >([]);
 
   const [reminders, setReminders] = useState<
     { projectTitle: string; projectTag: string; createdAt: string }[]
   >([]);
 
-  useEffect(() => {
-  if (!token) return;
+  const fetchData = async () => {
+    const [paymentsRes, suggestionsRes, complaintsRes, remindersRes] =
+      await Promise.all([
+        fetch("http://localhost:3000/payments/my", {
+          headers: { Authorization: `Bearer ${token}` },
+        }).then((r) => r.json()),
+        fetch("http://localhost:3000/suggestions/my", {
+          headers: { Authorization: `Bearer ${token}` },
+        }).then((r) => r.json()),
+        fetch("http://localhost:3000/complaints/my", {
+          headers: { Authorization: `Bearer ${token}` },
+        }).then((r) => r.json()),
+        fetch("http://localhost:3000/reminders", {
+          headers: { Authorization: `Bearer ${token}` },
+        }).then((r) => r.json()),
+      ]);
 
-  const fetchData = () => {
     // reminders
-    fetch("http://localhost:3000/reminders", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setReminders(data);
-          setReminderCount(data.length);
-        }
-      })
-      .catch(() => {});
+    if (Array.isArray(remindersRes)) {
+      setReminders(remindersRes);
+      setReminderCount(remindersRes.length);
+    }
 
-    // suggestions/requests
-    fetch("http://localhost:3000/suggestions/my", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) setRequestCount(data.length);
-      })
-      .catch(() => {});
+    // suggestions count
+    if (Array.isArray(suggestionsRes)) setRequestCount(suggestionsRes.length);
+
+    // payments total
+    if (Array.isArray(paymentsRes)) {
+      setFeeCount(paymentsRes.length);
+      const total = paymentsRes.reduce((sum: number, p: any) => {
+        const num = parseInt(p.amount.replace(/[^0-9]/g, ""));
+        return sum + (isNaN(num) ? 0 : num);
+      }, 0);
+      setTotalFees(total);
+    }
+
+    // activity feed
+    const combined = [
+      ...(Array.isArray(paymentsRes)
+        ? paymentsRes.map((p: any) => ({
+            color: "bg-green-500",
+            title: `تم دفع ${p.feeType}`,
+            sub: `رقم المعاملة: ${p.transactionId}`,
+            time: p.createdAt,
+          }))
+        : []),
+      ...(Array.isArray(suggestionsRes)
+        ? suggestionsRes.map((s: any) => ({
+            color: "bg-blue-500",
+            title: `تقديم مقترح: ${s.title}`,
+            sub: `الحي: ${s.neighborhood} — ${s.category}`,
+            time: s.createdAt,
+          }))
+        : []),
+      ...(Array.isArray(complaintsRes)
+        ? complaintsRes.map((c: any) => ({
+            color: "bg-orange-400",
+            title: `بلاغ: ${c.category}`,
+            sub: `${c.neighborhood}${c.street ? ` - ${c.street}` : ""}`,
+            time: c.createdAt,
+          }))
+        : []),
+    ];
+    combined.sort(
+      (a, b) => new Date(b.time).getTime() - new Date(a.time).getTime(),
+    );
+    setActivity(combined.slice(0, 6));
   };
-
-  fetchData();
-  const interval = setInterval(fetchData, 20000);
-  return () => clearInterval(interval);
-}, [token]);
-  
-  // fetch reminder count for the stats card
   useEffect(() => {
     if (!token) return;
-    fetch("http://localhost:3000/reminders", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then((data) => setReminderCount(Array.isArray(data) ? data.length : 0))
-      .catch(() => {});
+    fetchData();
+    const interval = setInterval(fetchData, 30000);
+    return () => clearInterval(interval);
   }, [token]);
-  
-  
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? "صباحاً" : hour < 17 ? "ظهراً" : "مساءً";
+  const getFilteredActivity = () => {
+    const now = new Date();
+    return activity.filter((a) => {
+      const itemDate = new Date(a.time);
+      const diffMs = now.getTime() - itemDate.getTime();
+      const diffDays = diffMs / (1000 * 60 * 60 * 24);
 
+      switch (activeFilter) {
+        case "منذ مالفين":
+          return diffDays <= 2;
+        case "يوم أمس":
+          return diffDays >= 1 && diffDays <= 2;
+        case "آخر أسبوع":
+          return diffDays <= 7;
+        case "أسبوع ماضي":
+          return diffDays > 7 && diffDays <= 14;
+        case "الكل":
+          return true;
+        default:
+          return true;
+      }
+    });
+  };
   return (
     <>
       <div className="text-right flex flex-col gap-6 p-5">
@@ -145,7 +181,7 @@ function DashboardOverview() {
         <div className="flex flex-row-reverse items-start justify-between flex-wrap gap-3">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              أهلاً بك يا {user?.name}
+              أهلاً بك يا <NameDisplay name={user?.name} />
             </h1>
             <p className="text-sm text-gray-400 mt-0.5">
               آخر تسجيل دخول: اليوم،{" "}
@@ -197,16 +233,21 @@ function DashboardOverview() {
                   className="text-green-600"
                 />
               </div>
-              <span className="text-3xl font-bold text-gray-900">150K</span>
+              <span className="text-3xl font-bold text-gray-900">
+                {totalFees >= 1000000
+                  ? (totalFees / 1000000).toFixed(1) + "M"
+                  : totalFees >= 1000
+                    ? Math.round(totalFees / 1000) + "K"
+                    : totalFees}
+              </span>
             </div>
             <p className="text-sm font-medium text-gray-800">رسوم مستحقة</p>
-            <p className="text-xs text-gray-400">لـ 1 إجمالي الرسوم والضرائب</p>
-            <NavLink
-              to="/dashboard/payments"
-              className="text-xs text-green-700 hover:underline font-medium mt-1"
-            >
-              عرض التفاصيل ←
-            </NavLink>
+            <p className="text-xs text-gray-400">
+              لـ {feeCount} إجمالي الرسوم والمدفوعات
+            </p>
+            <div className="flex flex-row-reverse gap-1 mt-1">
+              <PaymentHistoryModal />
+            </div>
           </div>
 
           {/* Active requests */}
@@ -218,7 +259,9 @@ function DashboardOverview() {
                   className="text-blue-500"
                 />
               </div>
-              <span className="text-3xl font-bold text-gray-900">{requestCount}</span>
+              <span className="text-3xl font-bold text-gray-900">
+                {requestCount}
+              </span>
             </div>
             <p className="text-sm font-medium text-gray-800">طلبات نشطة</p>
             <p className="text-xs text-gray-400">
@@ -235,7 +278,8 @@ function DashboardOverview() {
             </p>
             <button
               type="button"
-              className="text-xs text-green-700 hover:underline"
+              onClick={() => setActiveFilter("الكل")}
+              className="text-xs text-green-700 hover:underline flex items-center gap-1 flex-row-reverse cursor-pointer"
             >
               مشاهدة الكل
             </button>
@@ -257,17 +301,28 @@ function DashboardOverview() {
           </div>
 
           <div className="flex flex-col gap-3">
-            {activity.map((a, i) => (
-              <div key={i} className="flex flex-row-reverse items-start gap-3">
+            {getFilteredActivity().length === 0 ? (
+              <p className="text-xs text-gray-400 text-center py-4">
+                لا توجد أنشطة في هذه الفترة
+              </p>
+            ) : (
+              getFilteredActivity().map((a, i) => (
                 <div
-                  className={`w-2.5 h-2.5 rounded-full ${a.color} mt-1.5 shrink-0`}
-                />
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-800">{a.title}</p>
-                  <p className="text-xs text-gray-400 mt-0.5">{a.sub}</p>
+                  key={i}
+                  className="flex flex-row-reverse items-start gap-3"
+                >
+                  <div
+                    className={`w-2.5 h-2.5 rounded-full ${a.color} mt-1.5 shrink-0`}
+                  />
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-gray-800">
+                      {a.title}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-0.5">{a.sub}</p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
 

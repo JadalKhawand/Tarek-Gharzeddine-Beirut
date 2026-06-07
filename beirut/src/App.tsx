@@ -17,14 +17,43 @@ import Payments from "./components/payments";
 import Fpayments from "./components/fpayments";
 import ScrollToTop from "./components/ScrollToTop";
 import Spayment from "./components/spayment";
-import Reports from "./components/reports";
 import LoginPage from "./components/user/login";
 import DashboardLayout from "./components/dashboardlayout";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import DashboardRequests from "./components/dashborardrequests";
 import DashboardOverview from "./components/dashboardmain";
+import AdminDashboard from "./components/admindashboard";
+import AdminRequests from "./components/adminrequests";
+import Reports from "./components/reports";
+import AdminComplaints from "./components/adminComplaints";
+import AdminPayments from "./components/adminpayments";
+import Settings from "./components/settings";
 
+function DashboardIndex() {
+  const { user } = useAuth();
+  return user?.role === "admin" ? <AdminDashboard /> : <DashboardOverview />;
+}
+function RequestsPage() {
+  const { user } = useAuth();
+  return user?.role === "admin" ? <AdminRequests /> : <DashboardRequests />;
+}
+function ReportsPage() {
+  const { user, token } = useAuth();
+  return user?.role === "admin" ? (
+    <AdminComplaints token={token} />
+  ) : (
+    <Reports />
+  );
+}
+function PaymentsPage() {
+  const { user } = useAuth();
+  return user?.role === "admin" ? (
+    <AdminPayments />
+  ) : (
+    <Payments />
+  );
+}
 // Pages that use the public navbar
 function Layout() {
   const location = useLocation();
@@ -58,13 +87,13 @@ function App() {
             path="/dashboard"
             element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}
           >
-            <Route index element={<DashboardOverview/>} />
-            <Route path="complaints" element={<Reports />} />
-            <Route path="payments" element={<Payments />} />
+            <Route index element={<DashboardIndex />} />
+            <Route path="complaints" element={<ReportsPage />} />
+            <Route path="payments" element={<PaymentsPage />} />
             <Route path="fpayments" element={<Fpayments />} />
             <Route path="spayment" element={<Spayment />} />
-            <Route path="requests" element={<DashboardRequests />} />
-            <Route path="settings" element={<div className="text-right"><h1 className="text-2xl font-bold text-green-800">الإعدادات</h1></div>} />
+            <Route path="requests" element={<RequestsPage />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
 
         </Routes>

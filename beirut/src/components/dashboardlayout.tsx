@@ -13,6 +13,7 @@ import {
   faXmark,
   faLock,
 } from "@fortawesome/free-solid-svg-icons";
+import { NameDisplay, avatarLetter } from "./nameUtils";
 import { useState } from "react";
 
 const navItems = [
@@ -48,11 +49,11 @@ function DashboardLayout() {
       <div className="p-5 border-b border-gray-100">
         <div className="flex flex-row-reverse items-center gap-3">
           <div className="w-11 h-11 bg-green-700 rounded-full flex items-center justify-center text-white font-bold text-lg">
-            {user?.name?.charAt(0)}
+            {avatarLetter(user?.name)}
           </div>
           <div className="text-right">
             <p className="text-sm font-semibold text-gray-800">
-              أهلاً، {user?.name}
+              أهلاً، <NameDisplay name={user?.name} />
             </p>
             <p className="text-xs text-gray-400 mt-0.5">
               بوابة المواطن الرقمية

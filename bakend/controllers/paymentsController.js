@@ -32,3 +32,28 @@ export async function getMyPayments(req, res) {
     res.status(500).json({ error: "فشل جلب المدفوعات" });
   }
 }
+
+export async function getAllPayments(req, res) {
+  try {
+    const payments = await Payment.find()
+      .populate("user", "name email")
+      .sort({ createdAt: -1 });
+    res.json(payments);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch payments" });
+  }
+}
+
+export async function updatePaymentStatus(req, res) {
+  try {
+    const payment = await Payment.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      { new: true }
+    );
+    if (!payment) return res.status(404).json({ error: "Payment not found" });
+    res.json(payment);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update status" });
+  }
+}

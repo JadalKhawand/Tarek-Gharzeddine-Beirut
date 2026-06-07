@@ -41,7 +41,7 @@ function PaymentHistoryModal() {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="w-full text-center text-sm transition mt-4 cursor-pointer font-medium text-white bg-green-700 hover:bg-green-600 px-4 py-2 rounded-xl"
+        className="text-sm px-3 py-1.5 border border-gray-200 rounded-lg text-gray-500 hover:bg-gray-50 transition cursor-pointer"
       >
         عرض كل السجل
       </button>

@@ -14,7 +14,6 @@ import {
 import { useState } from "react";
 import Footer from "./footer";
 import { useAuth } from "../context/AuthContext";
-import AdminComplaints from "./adminComplaints";
 
 function Reports() {
   const [selectedCategory, setSelectedCategory] = useState("الطرق والأرصفة");
@@ -26,8 +25,7 @@ function Reports() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
-  const { token, user } = useAuth();
-  const isAdmin = user?.role === "admin";
+  const { token } = useAuth();
 
   const categories = [
     { title: "الطرق والأرصفة", icon: faRoadCircleExclamation },
@@ -80,8 +78,6 @@ function Reports() {
       setLoading(false);
     }
   };
-
-  if (isAdmin) return <AdminComplaints token={token} />;
   return (
     <>
       <div className="flex xl:flex-row-reverse flex-col my-10 mx-5 gap-6">

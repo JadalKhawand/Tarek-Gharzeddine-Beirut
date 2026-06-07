@@ -65,3 +65,31 @@ export async function getMe(req, res) {
     res.status(500).json({ error: "فشل في جلب بيانات المستخدم" });
   }
 }
+
+export async function updateProfile(req, res) {
+  try {
+    const { name, phone } = req.body;
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { name, phone },
+      { new: true }
+    ).select("-password");
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ error: "فشل تحديث البيانات" });
+  }
+}
+
+export async function changePassword(req, res) {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    const user = await User.findById(req.user.id);
+    const valid = bcrypt.compareSync(currentPassword, user.password);
+    if (!valid) return res.status(401).json({ error: "كلمة المرور الحالية غير صحيحة" });
+    user.password = bcrypt.hashSync(newPassword, 10);
+    await user.save();
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: "فشل تغيير كلمة المرور" });
+  }
+}

@@ -1,6 +1,6 @@
 // suggestionsRoutes.js
 import express from "express"
-import { createSuggestion, getMySuggestions, getAllSuggestions } from "../controllers/suggestionsController.js"
+import { createSuggestion, getMySuggestions, getAllSuggestions, updateSuggestionStatus } from "../controllers/suggestionsController.js"
 import { auth } from "../middleware/auth.js"
 import { adminAuth } from "../middleware/adminAuth.js"
 import multer from "multer"
@@ -10,4 +10,5 @@ const router = express.Router();
 router.post("/", auth, upload.array("files", 3), createSuggestion)
 router.get("/my", auth, getMySuggestions)
 router.get("/", adminAuth, getAllSuggestions)
+router.patch("/:id/status", adminAuth, updateSuggestionStatus)
 export default router;

@@ -3,10 +3,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch, faBars, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { NameDisplay, avatarLetter } from "./nameUtils";
 
 export default function Navbar() {
   const { user, logout, isAuthenticated } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
+  const letter = avatarLetter(user?.name);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `relative pb-1 transition hover:text-green-700 ${
@@ -77,9 +79,9 @@ export default function Navbar() {
                   className="flex items-center gap-2 text-sm text-green-800 font-medium hover:underline"
                 >
                   <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                    {user?.name?.charAt(0)}
+                    {letter}
                   </div>
-                  <span>أهلاً، {user?.name}</span>
+                  <span>أهلاً، <NameDisplay name={user?.name} /></span>
                 </NavLink>
                 <button
                   type="button"
@@ -155,9 +157,9 @@ export default function Navbar() {
                   className="flex items-center gap-2 text-sm text-green-800 font-medium hover:underline"
                 >
                   <div className="w-8 h-8 bg-green-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                    {user?.name?.charAt(0)}
+                    {letter}
                   </div>
-                  <span>أهلاً، {user?.name}</span>
+                  <span>أهلاً، <NameDisplay name={user?.name} /></span>
                 </NavLink>
                 <button
                   type="button"
