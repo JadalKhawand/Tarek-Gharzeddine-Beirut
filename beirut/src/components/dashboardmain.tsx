@@ -174,6 +174,49 @@ function DashboardOverview() {
       }
     });
   };
+  function Poll({
+    question,
+    options,
+  }: {
+    question: string;
+    options: string[];
+  }) {
+    const [voted, setVoted] = useState<string | null>(null);
+
+    return (
+      <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 shadow-sm">
+        <p className="text-sm font-semibold text-gray-800 mb-2">شارك برأيك</p>
+        <p className="text-xs text-gray-500 mb-4 leading-relaxed">{question}</p>
+        <div className="flex flex-col gap-2">
+          {options.map((opt) => (
+            <button
+              key={opt}
+              type="button"
+              onClick={() => setVoted(opt)}
+              className={`w-full text-sm text-right px-4 py-2.5 rounded-xl border transition
+              ${
+                voted === opt
+                  ? "border-green-600 bg-green-50 text-green-700 font-medium"
+                  : "border-gray-200 text-gray-600 hover:bg-gray-100"
+              }`}
+            >
+              <span className="flex flex-row-reverse items-center justify-between">
+                <span>{opt}</span>
+                {voted === opt && (
+                  <span className="text-green-600 text-xs">✓</span>
+                )}
+              </span>
+            </button>
+          ))}
+        </div>
+        {voted && (
+          <p className="text-xs text-green-600 mt-3 text-right">
+            شكراً لمشاركتك في التصويت
+          </p>
+        )}
+      </div>
+    );
+  }
   return (
     <>
       <div className="text-right flex flex-col gap-6 p-5">
@@ -501,28 +544,10 @@ function DashboardOverview() {
             </div>
 
             {/* Poll */}
-            <div className="bg-gray-50 border border-gray-100 rounded-2xl p-5 shadow-sm">
-              <p className="text-sm font-semibold text-gray-800 mb-2">
-                شارك برأيك
-              </p>
-              <p className="text-xs text-gray-500 mb-4 leading-relaxed">
-                ما هو رأيك في خطة توسعة مساحة المشي في منطقة وسط المدينة؟
-              </p>
-              <div className="flex flex-col gap-2">
-                <button
-                  type="button"
-                  className="w-full text-sm text-right px-4 py-2.5 rounded-xl border border-green-200 text-green-700 hover:bg-green-50 transition"
-                >
-                  أوافق بشدة
-                </button>
-                <button
-                  type="button"
-                  className="w-full text-sm text-right px-4 py-2.5 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-100 transition"
-                >
-                  أوافق مع بعض التعديلات
-                </button>
-              </div>
-            </div>
+            <Poll
+              question="ما هو رأيك في خطة توسعة مساحة المشي في منطقة وسط المدينة؟"
+              options={["أوافق بشدة", "أوافق مع بعض التعديلات", "لا أوافق"]}
+            />
           </div>
         </div>
       </div>
